@@ -6,8 +6,8 @@
 # Description:                                                                 #
 #     This code is written as part of Foldcomp benchmark project               #
 # ---                                                                          #
-# Last Modified: 2022-12-08 20:42:24                                           #
-# Modified By: Hyunbin Kim (khb7840@gmail.com)                                 #
+# Last Modified: Thu Feb 09 2023                                               #
+# Modified By: Hyunbin Kim                                                     #
 ################################################################################
 # Import libraries
 library(shadowtext)
@@ -16,8 +16,8 @@ library(cowplot)
 library(ggpubr)
 library(reshape2)
 # Colors
-colorForTools <- c("pulchra"="#6B7FBB","foldcomp"="#7DBDD5","pic"="#E59A7F","gzip"="#D2E1AE", "mmtf"="#E5D7B7","pdb"="#E5B7B7","cif"="#B7B7E5","bcif"="#B7E5B7")
-order <- c("foldcomp" = "Foldcomp", "pic" = "PIC", "pulchra" = "PULCHRA", "mmtf" = "MMTF", "gzip" = "gzip (PDB)", "bcif" = "BinaryCIF", "pdb" = "PDB", "cif" = "mmCIF")
+colorForTools <- c("pulchra"="#6B7FBB","foldcomp"="#7DBDD5","pic"="#E59A7F","gzip"="#D2E1AE", "mmtf"="#E5D7B7", "mmtf-java"="#E5D7B7","pdb"="#E5B7B7","cif"="#B7B7E5","bcif"="#B7E5B7")
+order <- c("foldcomp" = "Foldcomp", "pic" = "PIC", "pulchra" = "PULCHRA", "mmtf" = "MMTF (python)", "mmtf-java" = "MMTF (java)", "gzip" = "gzip (PDB)", "bcif" = "BinaryCIF", "pdb" = "PDB", "cif" = "mmCIF")
 colorForTime <- c("compression"="#6B7FBB","decompression"="#E59A7F")
 colorForRMSD <- c("backboneRMSD"="#6B7FBB","totalRMSD"="#E59A7F")
 # Read benchmark result
@@ -39,7 +39,7 @@ colnames(df_rmsd) <- c("pdb_path", "pdb_path_2", "backboneLen", "totalAtoms", "b
 df_rmsd <- subset(df_rmsd, select = -c(pdb_path_2))
 df_rmsd$pdb_path <- gsub("pdb/", "", df_rmsd$pdb_path)
 df_rmsd <- reshape2::melt(df_rmsd, id.vars=c("pdb_path","tool"), measure.vars=c("backboneRMSD","totalRMSD"), variable.name="rmsd_type", value.name="rmsd")
-df_rmsd[which(df_rmsd$tool %in% c("pdb", "cif", "mmtf", "bcif", "gzip")),]$rmsd <- NA
+df_rmsd[which(df_rmsd$tool %in% c("pdb", "cif", "mmtf", "mmtf-java", "bcif", "gzip")),]$rmsd <- NA
 df_rmsd$tool <- factor(df_rmsd$tool, levels=names(order))
 df_rmsd_copy <- df_rmsd[which(df_rmsd$tool=="mmtf"),]
 df_rmsd_copy$tool <- "pdb"
@@ -51,6 +51,8 @@ df_rmsd_copy <- df_rmsd[which(df_rmsd$tool=="mmtf"),]
 df_rmsd_copy$tool <- "gzip"
 df_rmsd <- rbind(df_rmsd, df_rmsd_copy)
 df_rmsd_copy <- df_rmsd[which(df_rmsd$tool=="mmtf"),]
+df_rmsd_copy$tool <- "mmtf-java"
+df_rmsd <- rbind(df_rmsd, df_rmsd_copy)
 
 plain <- function(x,...) {
     format(x, ..., scientific = FALSE, drop0trailing = TRUE)
@@ -140,5 +142,10 @@ rmsd_plot <- last_plot()
 grid <- plot_grid(size_plot, NA, time_boxplot, NA, rmsd_plot, rel_widths = c(0.46, -0.03, 0.33, -0.03, 0.20), nrow = 1, align = "h", axis = "h")
 grid <- grid + theme(plot.margin = unit(c(0,0,0,-0.5), "cm"))
 grid
-#ggsave("grid.pdf", width = 11*2, height = 4.5*2, units = "cm", bg="white")
+
+# PDF
+# ggsave("grid.pdf", width = 11*2, height = 4.5*2, units = "cm", bg="white")
+# SVG
+ggsave("grid.svg", width = 11*2, height = 4.5*2, units = "cm", bg="white")
+# ggsave("grid.svg", width = 18, height = 10, units = "cm", bg="white")
 ggsave("grid.png", width = 11*2, height = 4.5*2, units = "cm", bg="white")

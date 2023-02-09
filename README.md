@@ -11,7 +11,9 @@ This repository contains the benchmarking code and results for the paper,
         - bcif: [ciftools-java](https://github.com/rcsb/ciftools-java)
         - foldcomp: [foldcomp](https://github.com/steineggerlab/foldcomp)
         - gzip
-        - mmtf: [mmtf-python](https://github.com/rcsb/mmtf-python)
+        - mmtf
+          - [mmtf-python](https://github.com/rcsb/mmtf-python)
+          - [mmtf-java](https://github.com/rcsb/mmtf-java)
         - pic: [PIC](https://github.com/lukestaniscia/PIC)
         - pulchra: [pulchra](https://github.com/euplotes/pulchra)
     - visualization: Scripts for visualizing the benchmark results
@@ -21,3 +23,5 @@ This repository contains the benchmarking code and results for the paper,
             - rmsd.txt: RMSD values for each tool
             - size.txt: Compressed sizes (bytes) for each tool
 
+Special thanks to [@pwrose](https://github.com/pwrose) for the help with
+benchmarking MMTF in Java.
