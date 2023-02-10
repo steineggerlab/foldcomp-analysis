@@ -6,7 +6,7 @@
 # Description:                                                                 #
 #     This code is written as part of Foldcomp benchmark project               #
 # ---                                                                          #
-# Last Modified: Thu Feb 09 2023                                               #
+# Last Modified: Fri Feb 10 2023                                               #
 # Modified By: Hyunbin Kim                                                     #
 ################################################################################
 # Import libraries
@@ -146,6 +146,6 @@ grid
 # PDF
 # ggsave("grid.pdf", width = 11*2, height = 4.5*2, units = "cm", bg="white")
 # SVG
-ggsave("grid.svg", width = 11*2, height = 4.5*2, units = "cm", bg="white")
+# ggsave("grid.svg", width = 11*2, height = 4.5*2, units = "cm", bg="white")
 # ggsave("grid.svg", width = 18, height = 10, units = "cm", bg="white")
 ggsave("grid.png", width = 11*2, height = 4.5*2, units = "cm", bg="white")
